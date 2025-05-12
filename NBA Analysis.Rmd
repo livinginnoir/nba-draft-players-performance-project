@@ -1,0 +1,71 @@
+---
+title: "NBA Draft, Players & Performance - Analysis - R Notebook"
+output: html_notebook
+---
+
+# Analyzing the NBA Drafts, Players & Performance dataset
+
+## Objectives
+
+1.  Calculate z-scores for pure scoring performance (average points per game) for number one picks of each draft.
+2.  Conduct t-tests for the following:
+    -   Comparing the average height of players drafted in the first round versus those drafted in the second round.
+
+    -   Comparing the average height of players from two different countries.
+
+<!-- -->
+
+3.  Conduct ANOVA + post hoc tests for the following:
+    -   Average height of players across different draft rounds
+
+    -   Comparing the average net rating of players across different draft rounds
+
+    -   Comparing the average height or net rating of players from different continents or groups of countries
+
+<!-- -->
+
+4.  Conduct chi-square tests for the following:
+    -   Association between draft number and country
+
+    -   Association between draft number and position
+
+    -   Association between draft number and college
+
+<!-- -->
+
+5.  Calculate the correlations for the following:
+    -   Player height and net rating
+
+    -   Draft number and net rating
+
+<!-- -->
+
+6.  Build a predictive model that takes in the most significant numerical variables to predict performance (net rating?).
+
+## Load the data
+
+```{r}
+setwd("/Users/thomaslee/Desktop/Data/Projects/NBA Draft, Players & Performance/data")
+nba_data <- read.csv("NBA_cleaned_data.csv")
+```
+
+## View the data
+
+```{r}
+nba_data
+```
+
+## View the structure of the data
+
+```{r}
+str(nba_data)
+```
+
+## View the head and tail of the data
+
+```{r}
+head(nba_data)
+tail(nba_data)
+```
+
+## Calculate z-scores for first-year pure scoring performance of number one draft picks from 1990-2020
