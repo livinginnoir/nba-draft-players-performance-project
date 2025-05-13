@@ -51,7 +51,7 @@ head(nba_data)
 tail(nba_data)
 ```
 
-## Calculate z-scores for first-year pure scoring performance of number one draft picks from 1990-2020
+## Calculate z-scores for first-year scoring performance of number one draft picks from 1990-2020
 
 ```{r}
 # Calculate the mean for points (pts) scored by freshly drafted players for all draft years.
@@ -167,7 +167,7 @@ df <- df[order(df$z_scores, decreasing = TRUE),]
 print(df)
 ```
 
-Important note: the z-scores reflect each player's scoring performance for their first year among **other players who were also drafted that year**, NOT all players.
+Important note: the z-scores reflect each player's scoring performance for their first year among other players who were also drafted that year, NOT all players.
 
 Some surprising findings here. Although generally players with top average scored points are among those with top z-scores, the rankings are quite different between the two.
 
@@ -176,3 +176,35 @@ What's particularly interesting is that Ben Simmons and John Wall have #2 and #3
 It may be that the players in Shaquille's draft class were simply more competitive their first year: four players averaged 20+ points and 17 players averaged at least double digits. Whereas in 2016 (the year Ben Simmons was drafted): zero players averaged 20+ points and only three players averaged double digits.
 
 According to these findings, the z-scores may actually be more of a reflection of each player's draft class talent pool and competitiveness than just the player's individual talent.
+
+## Conduct t-test to compare the average height of players drafted in the first round versus those drafted in the second round
+
+```{r}
+# Install and load "dplyr" package
+library(dplyr)
+
+# Make sure 'draft_round' is a factor or character variable for filtering
+nba_data$draft_round <- as.character(nba_data$draft_round)
+
+# Filter data for players in the first and second rounds
+first_round_heights <- nba_data %>%
+  filter(draft_round == "1") %>%
+  select(player_height) %>%
+  na.omit() # Remove any rows with missing height data
+
+second_round_heights <- nba_data %>%
+  filter(draft_round == "2") %>%
+  select(player_height) %>%
+  na.omit() # Remove any rows with missing height data
+
+# Conduct the independent samples t-test
+# We assume unequal variances by default (var.equal = FALSE), which is generally safer
+t_test_result <- t.test(first_round_heights$player_height, second_round_heights$player_height, var.equal = FALSE)
+
+# Print the results of the t-test
+print(t_test_result)
+```
+
+The p-value of 0.01192 indicates that if there were no real difference in the average heights of first and second-round players, the probability of observing the resulting difference in sample means due to random sampling would be about 1.19%. This low probability provides evidence against the null hypothesis.
+
+In short, **there is statistically significant evidence to suggest that there is a true difference in the mean player heights between players selected in the first round and players selected in the second round** in the data.
