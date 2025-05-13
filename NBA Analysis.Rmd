@@ -8,38 +8,21 @@ output: html_notebook
 ## Objectives
 
 1.  Calculate z-scores for pure scoring performance (average points per game) for number one picks of each draft.
-2.  Conduct t-tests for the following:
+2.  Conduct t-test for the following:
     -   Comparing the average height of players drafted in the first round versus those drafted in the second round.
-
-    -   Comparing the average height of players from two different countries.
-
-<!-- -->
-
 3.  Conduct ANOVA + post hoc tests for the following:
-    -   Average height of players across different draft rounds
-
     -   Comparing the average net rating of players across different draft rounds
-
     -   Comparing the average height or net rating of players from different continents or groups of countries
-
-<!-- -->
-
 4.  Conduct chi-square tests for the following:
     -   Association between draft number and country
-
     -   Association between draft number and position
-
     -   Association between draft number and college
 
 <!-- -->
 
 5.  Calculate the correlations for the following:
     -   Player height and net rating
-
     -   Draft number and net rating
-
-<!-- -->
-
 6.  Build a predictive model that takes in the most significant numerical variables to predict performance (net rating?).
 
 ## Load the data
@@ -69,3 +52,127 @@ tail(nba_data)
 ```
 
 ## Calculate z-scores for first-year pure scoring performance of number one draft picks from 1990-2020
+
+```{r}
+# Calculate the mean for points (pts) scored by freshly drafted players for all draft years.
+mean_1990 <- mean(nba_data[nba_data$draft_year == 1990, 'pts'])
+mean_1991 <- mean(nba_data[nba_data$draft_year == 1991, 'pts'])
+mean_1992 <- mean(nba_data[nba_data$draft_year == 1992, 'pts'])
+mean_1993 <- mean(nba_data[nba_data$draft_year == 1993, 'pts'])
+mean_1994 <- mean(nba_data[nba_data$draft_year == 1994, 'pts'])
+mean_1995 <- mean(nba_data[nba_data$draft_year == 1995, 'pts'])
+mean_1996 <- mean(nba_data[nba_data$draft_year == 1996, 'pts'])
+mean_1997 <- mean(nba_data[nba_data$draft_year == 1997, 'pts'])
+mean_1998 <- mean(nba_data[nba_data$draft_year == 1998, 'pts'])
+mean_1999 <- mean(nba_data[nba_data$draft_year == 1999, 'pts'])
+mean_2000 <- mean(nba_data[nba_data$draft_year == 2000, 'pts'])
+mean_2001 <- mean(nba_data[nba_data$draft_year == 2001, 'pts'])
+mean_2002 <- mean(nba_data[nba_data$draft_year == 2002, 'pts'])
+mean_2003 <- mean(nba_data[nba_data$draft_year == 2003, 'pts'])
+mean_2004 <- mean(nba_data[nba_data$draft_year == 2004, 'pts'])
+mean_2005 <- mean(nba_data[nba_data$draft_year == 2005, 'pts'])
+mean_2006 <- mean(nba_data[nba_data$draft_year == 2006, 'pts'])
+mean_2007 <- mean(nba_data[nba_data$draft_year == 2007, 'pts'])
+mean_2008 <- mean(nba_data[nba_data$draft_year == 2008, 'pts'])
+mean_2009 <- mean(nba_data[nba_data$draft_year == 2009, 'pts'])
+mean_2010 <- mean(nba_data[nba_data$draft_year == 2010, 'pts'])
+mean_2011 <- mean(nba_data[nba_data$draft_year == 2011, 'pts'])
+mean_2012 <- mean(nba_data[nba_data$draft_year == 2012, 'pts'])
+mean_2013 <- mean(nba_data[nba_data$draft_year == 2013, 'pts'])
+mean_2014 <- mean(nba_data[nba_data$draft_year == 2014, 'pts'])
+mean_2015 <- mean(nba_data[nba_data$draft_year == 2015, 'pts'])
+mean_2016 <- mean(nba_data[nba_data$draft_year == 2016, 'pts'])
+mean_2017 <- mean(nba_data[nba_data$draft_year == 2017, 'pts'])
+mean_2018 <- mean(nba_data[nba_data$draft_year == 2018, 'pts'])
+mean_2019 <- mean(nba_data[nba_data$draft_year == 2019, 'pts'])
+mean_2020 <- mean(nba_data[nba_data$draft_year == 2020, 'pts'])
+
+# Calculate the standard deviation for points (pts) scored by freshly drafted players for all draft years.
+sd_1990 <- sd(nba_data[nba_data$draft_year == 1990, 'pts'])
+sd_1991 <- sd(nba_data[nba_data$draft_year == 1991, 'pts'])
+sd_1992 <- sd(nba_data[nba_data$draft_year == 1992, 'pts'])
+sd_1993 <- sd(nba_data[nba_data$draft_year == 1993, 'pts'])
+sd_1994 <- sd(nba_data[nba_data$draft_year == 1994, 'pts'])
+sd_1995 <- sd(nba_data[nba_data$draft_year == 1995, 'pts'])
+sd_1996 <- sd(nba_data[nba_data$draft_year == 1996, 'pts'])
+sd_1997 <- sd(nba_data[nba_data$draft_year == 1997, 'pts'])
+sd_1998 <- sd(nba_data[nba_data$draft_year == 1998, 'pts'])
+sd_1999 <- sd(nba_data[nba_data$draft_year == 1999, 'pts'])
+sd_2000 <- sd(nba_data[nba_data$draft_year == 2000, 'pts'])
+sd_2001 <- sd(nba_data[nba_data$draft_year == 2001, 'pts'])
+sd_2002 <- sd(nba_data[nba_data$draft_year == 2002, 'pts'])
+sd_2003 <- sd(nba_data[nba_data$draft_year == 2003, 'pts'])
+sd_2004 <- sd(nba_data[nba_data$draft_year == 2004, 'pts'])
+sd_2005 <- sd(nba_data[nba_data$draft_year == 2005, 'pts'])
+sd_2006 <- sd(nba_data[nba_data$draft_year == 2006, 'pts'])
+sd_2007 <- sd(nba_data[nba_data$draft_year == 2007, 'pts'])
+sd_2008 <- sd(nba_data[nba_data$draft_year == 2008, 'pts'])
+sd_2009 <- sd(nba_data[nba_data$draft_year == 2009, 'pts'])
+sd_2010 <- sd(nba_data[nba_data$draft_year == 2010, 'pts'])
+sd_2011 <- sd(nba_data[nba_data$draft_year == 2011, 'pts'])
+sd_2012 <- sd(nba_data[nba_data$draft_year == 2012, 'pts'])
+sd_2013 <- sd(nba_data[nba_data$draft_year == 2013, 'pts'])
+sd_2014 <- sd(nba_data[nba_data$draft_year == 2014, 'pts'])
+sd_2015 <- sd(nba_data[nba_data$draft_year == 2015, 'pts'])
+sd_2016 <- sd(nba_data[nba_data$draft_year == 2016, 'pts'])
+sd_2017 <- sd(nba_data[nba_data$draft_year == 2017, 'pts'])
+sd_2018 <- sd(nba_data[nba_data$draft_year == 2018, 'pts'])
+sd_2019 <- sd(nba_data[nba_data$draft_year == 2019, 'pts'])
+sd_2020 <- sd(nba_data[nba_data$draft_year == 2020, 'pts'])
+
+# Calculate the z-scores for number one picks for all draft years.
+d_coleman <- (18.1 - mean_1990) / sd_1990
+l_johnson <- (12.8 - mean_1991) / sd_1991
+s_neal <- (26.2 - mean_1992) / sd_1992
+c_webber <- (20.1 - mean_1993) / sd_1993
+g_robinson <- (21.1 - mean_1994) / sd_1994
+j_smith <- (18.7 - mean_1995) / sd_1995
+a_iverson <- (23.5 - mean_1996) / sd_1996
+t_duncan <- (21.1 - mean_1997) / sd_1997
+m_olowokandi <- (8.9 - mean_1998) / sd_1998
+e_brand <- (20.1 - mean_1999) / sd_1999
+k_mart <- (12 - mean_2000) / sd_2000
+k_brown <- (4.5 - mean_2001) / sd_2001
+y_ming <- (13.5 - mean_2002) / sd_2002
+l_james <- (20.9 - mean_2003) / sd_2003
+d_howard <- (12 - mean_2004) / sd_2004
+a_bogut <- (9.4 - mean_2005) / sd_2005
+a_bargnani <- (11.6 - mean_2006) / sd_2006
+g_oden <- (8.9 - mean_2007) / sd_2007
+d_rose <- (16.8 - mean_2008) / sd_2008
+b_griffin <- (22.5 - mean_2009) / sd_2009
+j_wall <- (16.4 - mean_2010) / sd_2010
+k_irving <- (18.5 - mean_2011) / sd_2011
+a_davis <- (13.5 - mean_2012) / sd_2012
+a_bennett <- (4.2 - mean_2013) / sd_2013
+a_wiggins <- (16.9 - mean_2014) / sd_2014
+k_towns <- (18.3 - mean_2015) / sd_2015
+b_simmons <- (15.8 - mean_2016) / sd_2016
+m_fultz <- (7.1 - mean_2017) / sd_2017
+d_ayton <- (16.3 - mean_2018) / sd_2018
+z_williamson <- (22.5 - mean_2019) / sd_2019
+a_edwards <- (19.3 - mean_2020) / sd_2020
+
+# Create initial unsorted dataframe with player names and z-scores.
+df <- data.frame(
+  Player_Name = c("Derrick Coleman", "Larry Johnson", "Shaquille O'Neal", "Chris Webber", "Glenn Robinson", "Joe Smith", "Allen Iverson", "Tim Duncan", "Michael Olowokandi", "Elton Brand", "Kenyon Martin", "Kwame Brown", "Yao Ming", "LeBron James", "Dwight Howard", "Andrew Bogut", "Andrea Bargnani", "Greg Oden", "Derrick Rose", "Blake Griffin", "John Wall", "Kyrie Irving", "Anthony Davis", "Anthony Bennett", "Andrew Wiggins", "Karl-Anthony Towns", "Ben Simmons", "Markelle Fultz", "Deandre Ayton", "Zion Williamson", "Anthony Edwards"),
+  draft_year = c(1990:2020),
+  points_scored = c(18.1, 12.8, 26.2, 20.1, 21.1, 18.7, 23.5, 21.1, 8.9, 20.1, 12, 4.5, 13.5, 20.9, 12, 9.4, 11.6, 8.9, 16.8, 22.5, 16.4, 18.5, 13.5, 4.2, 16.9, 18.3, 15.8, 7.1, 16.3, 22.5, 19.3),
+  z_scores = c(d_coleman, l_johnson, s_neal, c_webber, g_robinson, j_smith, a_iverson, t_duncan, m_olowokandi, e_brand, k_mart, k_brown, y_ming, l_james, d_howard, a_bogut, a_bargnani, g_oden, d_rose, b_griffin, j_wall, k_irving, a_davis, a_bennett, a_wiggins, k_towns, b_simmons, m_fultz, d_ayton, z_williamson, a_edwards),
+  stringasAsFactors = FALSE
+)
+
+# Sort initial dataframe and output final dataframe sorted by z-scores descending.
+df <- df[order(df$z_scores, decreasing = TRUE),]
+print(df)
+```
+
+Important note: the z-scores reflect each player's scoring performance for their first year among **other players who were also drafted that year**, NOT all players.
+
+Some surprising findings here. Although generally players with top average scored points are among those with top z-scores, the rankings are quite different between the two.
+
+What's particularly interesting is that Ben Simmons and John Wall have #2 and #3 z-scores respectively, although their average scored points are sub-20. Whereas Shaquille has the highest average scored points but ranks unexpectedly at #17 for z-scores. This calls for closer inspection.
+
+It may be that the players in Shaquille's draft class were simply more competitive their first year: four players averaged 20+ points and 17 players averaged at least double digits. Whereas in 2016 (the year Ben Simmons was drafted): zero players averaged 20+ points and only three players averaged double digits.
+
+According to these findings, the z-scores may actually be more of a reflection of each player's draft class talent pool and competitiveness than just the player's individual talent.
