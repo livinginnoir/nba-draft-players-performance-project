@@ -283,6 +283,8 @@ The ANOVA test comparing the average player height across different continents y
 
 According to the results of the Tukey HSD post hoc test, there is a statistically significant difference in the average height of NBA players across the different continents. **Specifically, players from Asia, Africa, and Europe tend to be significantly taller than players from the Americas**. Players from Oceania have an average height that falls in between and is not significantly different from the taller groups (Asia, Africa, Europe) or the shorter group (Americas) at the 0.05 significance level.
 
+## Conduct ANOVA + post hoc tests to compare the average net rating of drafted players across different continents
+
 ```{r}
 # install.packages("agricolae") # for post hoc test
 # install.packages("countrycode") # to convert country to continent
