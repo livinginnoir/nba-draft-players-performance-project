@@ -235,7 +235,7 @@ The p-value of 0.001203 strongly indicates that if there were no real difference
 
 In short, **there is statistically significant evidence to suggest that there is a true difference in the mean net ratings between players selected in the first round and players selected in the second round** in the data.
 
-To put it in less technical language, the "promise" of players selected in the first round tends to be fulfilled since they generally perform better than players selected in the second round. This finding is somewhat obvious, but it's good to confirm that team management and scouting departments are doing their jobs.
+In simpler terms, the "promise" of players selected in the first round tends to be fulfilled since they generally perform better than players selected in the second round. This finding is intuitive, but it's good to get confirmation that team management and scouting departments are doing their jobs.
 
 That said, there are always surprise performers; second round picks and even undrafted players can become all stars.
 
