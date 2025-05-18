@@ -8,22 +8,25 @@ output: html_notebook
 ## Objectives
 
 1.  Calculate z-scores for pure scoring performance (average points per game) for number one picks of each draft.
+
 2.  Conduct t-tests for the following:
+
     -   Comparing the average height of players drafted in the first round versus those drafted in the second round.
     -   Comparing the average net rating of players across different draft rounds
+
 3.  Conduct ANOVA + post hoc tests for the following:
+
     -   Comparing the average height of players across different continents
     -   Comparing the net rating of players across different continents
+
 4.  Conduct chi-square tests for the following:
+
     -   Association between draft round and country
     -   Association between draft round and college
 
 <!-- -->
 
-5.  Calculate the correlations for the following:
-    -   Player height and net rating
-    -   Draft number and net rating
-6.  Build a predictive model that takes in the most significant numerical variables to predict performance (net rating?).
+5.  Calculate the correlations between draft number and performance metrics.
 
 ## Load the data
 
@@ -330,7 +333,7 @@ Note that these findings don't say anything about which continent produces the m
 
 ```{r}
 # install.packages("dplyr")
-#library(dplyr)
+library(dplyr)
 
 # Make sure relevant columns are factors or character
 nba_data$draft_round <- as.factor(nba_data$draft_round)
@@ -359,3 +362,36 @@ The chi-square test comparing player draft round and country yielded a p-value o
 The chi-square test comparing player draft round and college attendance yielded a p-value of 4.221e-15. This extremely small p-value is far below 0.05 and even 0.01. **Therefore, we reject the null hypothesis and conclude that there is a statistically significant association between a player's draft round and the college they attended**. The distribution of colleges attended is not the same across different draft rounds, suggesting that a player's college is related to their likelihood of being drafted in a particular round.
 
 In fact, history shows that certain colleges are top producers of NBA first-round draft picks, including Kentucky, Duke, and North Carolina. This is due to a combination of factors, including program success, player development, recruiting, and the overall quality of the players they attract.
+
+## Calculate the correlations between draft number and performance metrics
+
+```{r}
+# install.packages("dplyr")
+library(dplyr)
+
+# Identify performance metrics
+performance_metrics_cols <- c("pts", "ast", "reb", "net_rating", "usg_pct", "ts_pct", "gp") 
+
+# Select draft_number and performance metrics, and filter for draft numbers 1-60
+df_draft_performance_filtered <- nba_data %>%
+  select(draft_number, all_of(performance_metrics_cols)) %>%
+  filter(!is.na(draft_number)) # Initial filter for non-missing draft numbers
+
+# Convert draft_number to numeric if it's not already and handle potential errors
+df_draft_performance_filtered$draft_number <- suppressWarnings(as.numeric(as.character(df_draft_performance_filtered$draft_number)))
+
+# Filter for draft numbers between 1 and 60 and remove rows with NA in any selected column
+df_draft_performance_complete_filtered <- df_draft_performance_filtered %>%
+  filter(draft_number >= 1 & draft_number <= 60) %>%
+  na.omit() # Remove any rows with missing values in any of the selected columns
+
+# Calculate the Spearman rank correlation matrix
+correlation_matrix_spearman <- cor(df_draft_performance_complete_filtered, method = "spearman")
+
+# Print the Spearman correlation matrix
+print(correlation_matrix_spearman)
+```
+
+The resulting correlation matrix indicates that **there were correlations of moderate strength between draft number and points, rebounds, \# of games played, net rating, and assists** (in order of strength of correlation from strongest to weakest).
+
+In other words, players who were earlier picks generally put up better numbers in their first year than those who were picked later, as expected.
