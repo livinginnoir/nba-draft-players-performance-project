@@ -175,7 +175,7 @@ What's particularly interesting is that Ben Simmons and John Wall have #2 and #3
 
 It may be that the players in Shaquille's draft class were simply more competitive: four players averaged 20+ points and 17 players averaged at least double digits. Whereas in 2016 (the year Ben Simmons was drafted): zero freshly drafted players averaged 20+ points and only three averaged double digits.
 
-According to these findings, the z-scores may actually be more of a reflection of each player's draft class talent pool and competitiveness than just the player's individual talent.
+According to these findings, the z-scores may actually be a reflection of each player's draft class talent pool and competitiveness and not only the player's individual talent.
 
 ## Conduct t-test to compare the average height of players drafted in the first round versus those drafted in the second round
 
@@ -353,3 +353,9 @@ contingency_table_college <- table(nba_data$draft_round, nba_data$college)
 chi_square_college <- chisq.test(contingency_table_college)
 print(chi_square_college)
 ```
+
+The chi-square test comparing player draft round and country yielded a p-value of 0.9891, which is very close to 1. **Therefore, we accept the null hypothesis and conclude there is no statistically significant association between a player's draft round and their country**.
+
+The chi-square test comparing player draft round and college attendance yielded a p-value of 4.221e-15. This extremely small p-value is far below 0.05 and even 0.01. **Therefore, we reject the null hypothesis and conclude that there is a statistically significant association between a player's draft round and the college they attended**. The distribution of colleges attended is not the same across different draft rounds, suggesting that a player's college is related to their likelihood of being drafted in a particular round.
+
+In fact, history shows that certain colleges are top producers of NBA first-round draft picks, including Kentucky, Duke, and North Carolina. This is due to a combination of factors, including program success, player development, recruiting, and the overall quality of the players they attract.
