@@ -15,9 +15,8 @@ output: html_notebook
     -   Comparing the average height of players across different continents
     -   Comparing the net rating of players across different continents
 4.  Conduct chi-square tests for the following:
-    -   Association between draft number and country
-    -   Association between draft number and position
-    -   Association between draft number and college
+    -   Association between draft round and country
+    -   Association between draft round and college
 
 <!-- -->
 
@@ -326,3 +325,31 @@ if (summary(anova_result_continent_filtered)[[1]]$`Pr(>F)`[1] < 0.05) {
 The results of the ANOVA test indicate that there is **no statistically significant difference** in the average net rating of players across the different continents. The observed variations in average net rating between the continental groups are not large enough to be considered statistically significant and could reasonably be attributed to random chance.
 
 Note that these findings don't say anything about which continent produces the most drafted players; from a cursory glance of the dataset, it is clear that the USA produces the most NBA players by far. What these findings DO indicate is that among drafted players, their continent is not a significant factor behind their first-year performance.
+
+## Conduct chi-square tests for associations between draft round and country / college
+
+```{r}
+# install.packages("dplyr")
+#library(dplyr)
+
+# Make sure relevant columns are factors or character
+nba_data$draft_round <- as.factor(nba_data$draft_round)
+nba_data$country <- as.factor(nba_data$country)
+nba_data$college <- as.factor(nba_data$college)
+
+# --- Association between draft round and country ---
+print("Chi-square test for association between draft round and country:")
+# Create a contingency table
+contingency_table_country <- table(nba_data$draft_round, nba_data$country)
+# Perform the chi-square test
+chi_square_country <- chisq.test(contingency_table_country)
+print(chi_square_country)
+
+# --- Association between draft round and college ---
+print("\nChi-square test for association between draft round and college:")
+# Create a contingency table
+contingency_table_college <- table(nba_data$draft_round, nba_data$college)
+# Perform the chi-square test
+chi_square_college <- chisq.test(contingency_table_college)
+print(chi_square_college)
+```
